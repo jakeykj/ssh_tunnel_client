@@ -1,0 +1,18 @@
+global:
+  connect_all_at_start: False
+  sshoptions:
+    ServerAliveInterval: 15
+    ServerAliveCountMax: 3
+    ExitOnForwardFailure: yes
+    KexAlgorithms: +diffie-hellman-group-exchange-sha256
+
+tunnels:
+  -
+    host: remotehost
+    user: username
+    identityfile: /path/to/ssh/private/key
+    proxyjump: jumphost
+    forwards:
+      -
+        remote: localhost:22
+        local: localhost:2222
