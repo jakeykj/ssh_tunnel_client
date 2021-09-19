@@ -9,7 +9,7 @@ from shutil import copyfile
 from setuptools import setup
 
 APP = ['tunnels.py']
-DATA_FILES = ['config_template.yaml', 'green_dot.png', 'red_dot.png', 'icon_on.png', 'icon_off.png']
+DATA_FILES = ['config_template.yaml', 'resources']
 OPTIONS = {
     'packages': ['rumps'],
     'iconfile':'tunnel.icns',

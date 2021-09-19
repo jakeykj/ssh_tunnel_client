@@ -44,7 +44,7 @@ class Tunnel:
 class TaskbarTunnelApp(rumps.App):
     def __init__(self):
         super().__init__('SSH Tunnel', quit_button=None)
-        self.icon = './icon_off.png'
+        self.icon = './resources/icon_off.png'
         self.config_path = os.path.expanduser('~') + '/.config/tunnels/config.yaml'
         self.configs = None
         self.tunnels = None
@@ -69,7 +69,7 @@ class TaskbarTunnelApp(rumps.App):
                            rumps.MenuItem('Disconnect All', callback=self.disconnect_all),
                            None]
 
-        tunnel_items = [[rumps.MenuItem(name, icon='./red_dot.png', dimensions=(8, 8), callback=self._tunnel_switch),
+        tunnel_items = [[rumps.MenuItem(name, icon='./resources/red_dot.png', dimensions=(8, 8), callback=self._tunnel_switch),
                          [
                              rumps.MenuItem('(local) %s -> (remote) %s' % (x['local'], x['remote']))
                              for x in self.tunnels[name].forwards
@@ -110,7 +110,7 @@ class TaskbarTunnelApp(rumps.App):
             self._connect_single_tunnel(sender)
 
     def set_tunnel_icon(self, itemname, switchedon):
-        icon = './green_dot.png' if switchedon else './red_dot.png'
+        icon = './resources/green_dot.png' if switchedon else './resources/red_dot.png'
         self.menu[itemname].set_icon(icon, dimensions=(8, 8))
 
     def _connect_single_tunnel(self, sender):
@@ -127,7 +127,7 @@ class TaskbarTunnelApp(rumps.App):
         for name, t in self.tunnels.items():
             t.connect()
             self.set_tunnel_icon(name, True)
-        # self.icon = './icon_green.png'
+        # self.icon = './resources/icon_green.png'
 
     def disconnect_all(self, sender=None):
         for name, t in self.tunnels.items():
@@ -145,9 +145,9 @@ class TaskbarTunnelApp(rumps.App):
                 tunnel_on[name] = False
                 self.set_tunnel_icon(name, False)
         if any([t.is_connected() for _, t in self.tunnels.items()]):
-            self.icon = './icon_on.png'
+            self.icon = './resources/icon_on.png'
         else:
-            self.icon = './icon_off.png'
+            self.icon = './resources/icon_off.png'
 
     def open_configuration(self, sender):
         call(['open', self.config_path])
