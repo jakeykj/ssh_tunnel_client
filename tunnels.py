@@ -1,5 +1,6 @@
 #!python
 import os
+import getpass
 from shutil import copyfile
 from subprocess import Popen, PIPE, call
 from rumps.rumps import MenuItem
@@ -71,7 +72,8 @@ class TaskbarTunnelApp(rumps.App):
 
         tunnel_items = [[rumps.MenuItem(name, icon='./resources/red_dot.png', dimensions=(8, 8), callback=self._tunnel_switch),
                          [
-                             rumps.MenuItem('(local) %s -> (remote) %s' % (x['local'], x['remote']))
+                             rumps.MenuItem('%s%s:%s' % \
+                                 ('({}) '.format(x['name']) if 'name' in x else '', x['local'], x['remote']))
                              for x in self.tunnels[name].forwards
                          ]]
                         for name in self.tunnels]
@@ -97,8 +99,8 @@ class TaskbarTunnelApp(rumps.App):
         return Tunnel(sshoptions,
                       name=tunnel_param.get('name', None),
                       host=tunnel_param['host'],
-                      user=tunnel_param['user'],
-                      idfile=tunnel_param['identityfile'],
+                      user=tunnel_param.get('user', getpass.getuser()),
+                      idfile=tunnel_param.get('identityfile', '~/.ssh/id_rsa'),
                       forwards=tunnel_param['forwards'],
                       proxy=tunnel_param.get('proxyjump', None))
 
